@@ -21,6 +21,7 @@ return [
         'livewire' => 'app/Livewire',
         'mail' => 'app/Mail',
         'routes' => 'routes',
+        'config' => 'config',
     ],
 
 ];
