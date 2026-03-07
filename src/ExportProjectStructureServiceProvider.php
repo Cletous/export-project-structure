@@ -1,30 +1,30 @@
+<?php
+
+namespace Makuruwan\ExportProjectStructure;
+
+use Illuminate\Support\ServiceProvider;
+use Makuruwan\ExportProjectStructure\Commands\ExportProjectStructureCommand;
+
+class ExportProjectStructureServiceProvider extends ServiceProvider
 {
-"name": "makuruwan/export-project-structure",
-"description": "A Laravel package to export project structure files into text files.",
-"type": "library",
-"license": "MIT",
-"keywords": [
-"laravel",
-"artisan",
-"export",
-"project-structure"
-],
-"autoload": {
-"psr-4": {
-"Makuruwan\\ExportProjectStructure\\": "src/"
-}
-},
-"extra": {
-"laravel": {
-"providers": [
-"Makuruwan\\ExportProjectStructure\\ExportProjectStructureServiceProvider"
-]
-}
-},
-"require": {
-"php": "^8.1",
-"illuminate/support": "^10.0|^11.0|^12.0"
-},
-"minimum-stability": "stable",
-"prefer-stable": true
+    public function register(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/export-project-structure.php',
+            'export-project-structure'
+        );
+    }
+
+    public function boot(): void
+    {
+        $this->publishes([
+            __DIR__ . '/../config/export-project-structure.php' => config_path('export-project-structure.php'),
+        ], 'export-project-structure-config');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ExportProjectStructureCommand::class,
+            ]);
+        }
+    }
 }

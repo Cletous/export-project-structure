@@ -20,6 +20,7 @@ return [
         'views' => 'resources/views',
         'livewire' => 'app/Livewire',
         'mail' => 'app/Mail',
+        'routes' => 'routes',
     ],
 
 ];
