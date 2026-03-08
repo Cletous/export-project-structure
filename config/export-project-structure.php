@@ -14,6 +14,7 @@ return [
         'requests' => 'app/Http/Requests',
         'jobs' => 'app/Jobs',
         'policies' => 'app/Policies',
+        'middleware' => 'app/Http/Middleware',
         'seeders' => 'database/seeders',
         'pages' => 'resources/js/Pages',
         'hooks' => 'resources/js/hooks',
