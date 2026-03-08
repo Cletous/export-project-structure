@@ -1,9 +1,10 @@
 <?php
 
 return [
-
+    /** Define the root folder to store the exports */
     'exports_directory' => 'exports',
 
+    /** Define the targets to export */
     'targets' => [
         'models' => 'app/Models',
         'controllers' => 'app/Http/Controllers',
@@ -23,5 +24,4 @@ return [
         'routes' => 'routes',
         'config' => 'config',
     ],
-
 ];
