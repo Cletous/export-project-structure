@@ -12,13 +12,9 @@ class ExportProjectStructureCommand extends Command
 
     protected $description = 'Export project folders into text files inside the exports directory';
 
-    protected array $targets = [];
-
-    public function __construct()
+    protected function getTargets(): array
     {
-        parent::__construct();
-
-        $this->targets = config('export-project-structure.targets', []);
+        return config('export-project-structure.targets', []);
     }
 
     protected function configure(): void
@@ -39,7 +35,7 @@ class ExportProjectStructureCommand extends Command
             'Export all configured sections into separate files'
         );
 
-        foreach (array_keys($this->targets) as $target) {
+        foreach (array_keys($this->getTargets()) as $target) {
             $this->addOption(
                 $target,
                 null,
@@ -59,7 +55,7 @@ class ExportProjectStructureCommand extends Command
         }
 
         if ($this->option('all')) {
-            $result = $this->exportAllIntoSingleFile($this->targets, $exportsDir);
+            $result = $this->exportAllIntoSingleFile($this->getTargets(), $exportsDir);
             $this->printAvailableCommands();
             return $result;
         }
@@ -92,7 +88,7 @@ class ExportProjectStructureCommand extends Command
     {
         $selected = [];
 
-        foreach ($this->targets as $name => $path) {
+        foreach ($this->getTargets() as $name => $path) {
             if ($this->option($name)) {
                 $selected[$name] = $path;
             }
@@ -105,7 +101,7 @@ class ExportProjectStructureCommand extends Command
     {
         $exportedAny = false;
 
-        foreach ($this->targets as $name => $relativePath) {
+        foreach ($this->getTargets() as $name => $relativePath) {
             $didExport = $this->exportSingleTarget($name, $relativePath, $exportsDir);
 
             if ($didExport) {
@@ -231,13 +227,13 @@ class ExportProjectStructureCommand extends Command
         $this->line('  php artisan code:export --all-separate');
         $this->newLine();
 
-        foreach (array_keys($this->targets) as $target) {
+        foreach (array_keys($this->getTargets()) as $target) {
             $this->comment('Export only ' . $target . ':');
             $this->line("  php artisan code:export --{$target}");
             $this->newLine();
         }
 
-        $exampleTargets = array_slice(array_keys($this->targets), 0, min(3, count($this->targets)));
+        $exampleTargets = array_slice(array_keys($this->getTargets()), 0, min(3, count($this->getTargets())));
 
         if (!empty($exampleTargets)) {
             $exampleCommand = 'php artisan code:export ' . implode(
